@@ -2,11 +2,21 @@
   session_start();
   // Conexão com o Banco de Dados
   include_once('Config.php'); // Certifique-se de que está incluindo corretamente o arquivo com a conexão
+
+  if (isset($_POST['logout'])) 
+{
+    session_destroy(); // Destruir todas as variáveis de sessão  
+    header('Location: Pagina_inicial.php');
+    exit();
+}
+
+
   if(!isset($_SESSION['user_id'])) 
   {
     header('Location: Pagina_inicial.php'); // Redireciona para a página de login
     exit();
   }
+  //criar um time
   if(isset($_POST['submitTeam']))
   {
     $NomeTime = $_POST['Nome'];
@@ -17,16 +27,14 @@
     $check_query->execute();
     $check_result = $check_query->get_result();
     //---------
-                  
-    //---------
-    if ($check_result->num_rows > 0) //Cadastra o Time.
+    if ($check_result->num_rows > 0) //Checa se o nome do time já esta em uso.
     {
         echo "O nome do time '$NomeTime' já está em uso. Por favor, escolha outro.";
     } 
+    //caso o nome do time não seja encontrado no banco, cria-se o time
     else 
-    {
-        // Inserção dos dados usando prepared statements
-        $sql = $conexao->prepare("INSERT INTO Times (NomeTime,idCriador,IdTime) VALUES (?, ?)");
+    {   // Inserção dos dados usando prepared statements
+        $sql = $conexao->prepare("INSERT INTO Times (NomeTime,idCriador) VALUES (?, ?)");
         $sql->bind_param("si",$NomeTime, $IdCriador);
         
         if ($sql->execute()) 
@@ -38,73 +46,7 @@
             echo "Erro ao inserir dados: " . $conexao->error;
         }
     } 
-  }
-
-  $getIdTimeQuery = $conexao->prepare("SELECT Id FROM Times WHERE NomeTime = ?");
-  $getIdTimeQuery->bind_param("s", $NomeTime);
-  $getIdTimeQuery->execute();
-  $getIdTimeResult = $getIdTimeQuery->get_result();
-
-  if ($getIdTimeResult) {
-    if ($getIdTimeResult->num_rows > 0) {
-        // Obtendo o resultado da consulta
-        $time = $getIdTimeResult->fetch_assoc();
-        $IdTime = $time['Id'];
-
-        // Exibindo o resultado obtido
-        echo "Id do Time obtido: " . $IdTime;
-    } else {
-        echo "Nenhum resultado encontrado para o Id: " . $NomeTime;
-    }
-} else {
-    echo "Erro ao obter o Id do Time.";
-} 
-  // Consulta para obter o IdUsuario
-  $getIdUsuarioQuery = $conexao->prepare("SELECT Id FROM Usuarios WHERE NomeUsuario = ?");
-  $getIdUsuarioQuery->bind_param("s", $NomeUsuario); // Substitua 'algum_criterio' e 'algumValor' por condições específicas
-  $getIdUsuarioQuery->execute();
-  $getIdUsuarioResult = $getIdUsuarioQuery->get_result();
-  if ($getIdUsuarioResult->num_rows > 0) 
-  {
-      $usuario = $getIdUsuarioResult->fetch_assoc();
-      $IdUsuario = $usuario['Id'];
-      
-  }
-  
- if (isset($_POST['submitPlayer'])) 
- {
-  $NomeJogador = $_POST['NomeJogador'];
-
-  $check_query_jogador = $conexao->prepare("SELECT Id FROM MembrosTime WHERE IdUsuario = ?");
-  $check_query_jogador->bind_param("i", $_POST['IdUsuario']); // Suponho que 'Id' seja o Id do jogador que está sendo verificado
-  $check_query_jogador->execute();
-  $check_result_jogador = $check_query_jogador->get_result();
-
-  if ($check_result_jogador->num_rows > 0) 
-  {
-      echo "O jogador '$NomeJogador' já pertence a outro time.";
-  } 
-  else 
-  {
-      // O jogador não está em nenhum time, então você pode adicionar o jogador ao novo time
-      $Cargo = "Membro"; // Defina o cargo conforme necessário
-      if (isset($IdTime) && isset($IdUsuario)) 
-      {
-        $sql = $conexao->prepare("INSERT INTO MembrosTime (IdUsuario, IdTime, Cargo) VALUES (?, ?, ?)");
-        $sql->bind_param("iis", $IdUsuario, $IdTime, $Cargo);
-
-        if ($sql->execute()) 
-        {
-            echo "Jogador adicionado com sucesso ao time!";
-        } else {
-            echo "Erro ao adicionar jogador: " . $conexao->error;
-        }
-    }     
-  }
-}
-
-      $query = "SELECT NomeUsuario FROM Usuarios";
-      $result = $conexao->query($query);
+  }    
       $conexao->close();
 ?>
 
@@ -130,46 +72,31 @@
       margin-top: 10rem !important;
       margin-bottom: 0px; /* Adapte o valor conforme necessário */
     }
+    .nav button#finalizarSessao{
+
+    }
 
 
 </style>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="Pagina_Principal.php">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="Pagina_Meu_Time.php">Meu Time</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">Jogadores</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+   <!--botao para finalizar sessão--><form action="" method="post" >
+   <input type="submit" value="Sair" name="logout"style="background-color:red; margin-left:2100%";>
+  </form>
+</nav>
   <form action="" method="post">
     <table class="table table-striped table-dark mx-auto custom-mt-5" style="width: 50%;">
       <thead>
@@ -177,13 +104,13 @@
           <th scope="col">CRIE SEU TIME</th>     
         </tr>
       </thead>
-      <tbody>
+      <<tbody>
         <tr>
             <th scope="row" >ADICIONE O NOME DO SEU TIME:</th>
             <td ><input  type="text" placeholder="LOUD" class="inputs" name="Nome"></td>
             <td><input style="display: inline-block; class="inputSubmit" type="submit" id="botao" value="CRIAR" name="submitTeam"></td>
       </tbody>
-      <table class="table table-striped table-dark mx-auto" style="width: 50%;">
+      <!--<table class="table table-striped table-dark mx-auto" style="width: 50%;">
 
       <tbody>
         <tr>
@@ -197,25 +124,26 @@
     </table>
     <table class="table table-striped table-dark mx-auto custom-mt-1" style="width: 50%;">
       <thead >
-        <tr>     
+      <tbody>
+         <tr>     
           <th scope="col">Lista de Usuários</th>             
         </tr>
       </thead>
       <tbody>
-      </tr>
+      </tr>-->
       <?php
-      if ($result->num_rows > 0) 
-      {
-          while ($row = $result->fetch_assoc()) 
-          {             
-              echo "<td>" . $row['NomeUsuario'] . "</td>";
-              echo "</tr>";
-          }
-      } 
-      else 
-      {
-          echo "<tr><td colspan='2'>Nenhum usuário encontrado.</td></tr>";
-      }
+      //if ($result->num_rows > 0) 
+      //{
+       //   while ($row = $result->fetch_assoc()) 
+         // {             
+           //   echo "<td>" . $row['NomeUsuario'] . "</td>";
+            //  echo "</tr>";
+          //}
+      //} 
+     // else 
+     // {
+     //     echo "<tr><td colspan='2'>Nenhum usuário encontrado.</td></tr>";
+     // }
       ?>
       </tbody>
     </table>   
