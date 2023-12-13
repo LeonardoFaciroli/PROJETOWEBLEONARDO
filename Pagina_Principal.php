@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+
+if (isset($_POST['logout'])) 
+{
+    session_destroy(); // Destruir todas as variáveis de sessão  
+    header('Location: Pagina_inicial.php');
+    exit();
+}
+
 // Verifica se a sessão do usuário está iniciada
 if(!isset($_SESSION['user_id'])) {
     header('Location: Pagina_inicial.php'); // Redireciona para a página de login
@@ -68,6 +76,10 @@ if(!isset($_SESSION['user_id'])) {
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+<!--botao para finalizar sessão--><form action="" method="post" >
+<input type="submit" value="Sair" name="logout"style="background-color:red; margin-left:2100%";>
+  </form>
+
 </nav>
 
 <div class="container">
