@@ -23,77 +23,118 @@ if(!isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
     <title>TEAMS</title>
 </head>
 
 <style>
         body{
             font-family: Ariel, Helvetica, sans-serif;
-            background-color: rgb(138 82 255);
+            background-color: rgb(138 82 255);}
+           
+     /* styles.css */
+        .menu{
+            width: 200px;
+            height: 100vh; /* 100% da altura da viewport */
+            background-color: #f0f0f0;
+            position: fixed; /* ou absolute, dependendo do comportamento desejado */
+            top: 0;
+            left: 0;
+            margin-top:200px;
+
+            transition: transform 0.3s ease; /* Adiciona uma transição suave */
+            transform: translateX(-120%); /* Inicia o menu fora da tela */
         }
-        .container{
-            display: flex;
-            justify-center: center;
-            text-align: center;
+
+        .menu.show{
+            transform: translateX(0); /* Move o menu para dentro da tela */
         }
-        .container img{
+
+        .menu ul{
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu ul li{
+            padding: 10px;
+        }
+
+        .menu ul li a{
+            text-decoration: none;
+            color: #333;
             display: block;
-            margin: 100px;
-            margin-top: 150px;
-            margin-left: 130px;
-       }
-       .time{
-        position: absolute;
-        top: 25%;
-        font-size: 24px;
-        left: 27%;
-       }
-       .perfil{
-        position: absolute;
-        top: 25%;
-        font-size: 24px;
-        left: 72%;
-       }
-       .container a#linkcriartime{
-        color:red;
-       }
-     
-       
+        }
+
+        .menu ul li a:hover{
+            background-color: #ddd;
+        }
+        #toggleMenuButton {
+    position: fixed; /* ou absolute, dependendo do comportamento desejado */
+    top: 0px;
+    left: 0;
+     /* Ajuste conforme necessário */
+}
+.menu2 {
+    
+    width: 200px; /* ajuste conforme necessário */
+    height: 200px; /* ajuste conforme necessário */
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+
+
+      
 </style>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="Pagina_principal.php">Home</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="Pagina_Meu_Time.php">Meu Time</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="#">Jogadores</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-<!--botao para finalizar sessão--><form action="" method="post" >
-<input type="submit" value="Sair" name="logout"style="background-color:red; margin-left:2100%";>
-  </form>
-
-</nav>
-
-<div class="container">
-    <a href="Pagina_CreateTeam.php" id="linkcriartime">
-        <h1 class="time">Crie seu TIME!</h1>
-    </a>
-    <img id="imagem-mapeada"src="img\CriarTime.png" alt="" width="400" height="350">
-        
-    </img>
-        <h1 class="perfil">Jogadores</h1>
-    <img src="img\MeuPerfil.png" alt="" width="400" height="270">
-    
-    
+<div class="container">      
 </div>
+<div class="menu2">
+</div>
+      <button id="toggleMenuButton">Toggle Menu</button>
+<div class="menu">   
+    <ul>
+        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <h4 class="time">Tela Principal</h4>
+        </a>
+        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <h4 class="time">Dashboards</h4>
+        </a>
+        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <h4 class="time">Agenda</h4>
+        </a>
+        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <h4 class="time">Clientes</h4>
+        </a>
+        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <h4 class="time">Fornecedores</h4>
+        </a>
+        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <h4 class="time">Equipe</h4>
+        </a>
+        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <h4 class="time">Estoque</h4>
+        </a>
+        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <h4 class="time">Serviços e Produtos</h4>
+        </a>
+        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <h4 class="time">Eventos</h4>
+        </a>
+        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <h4 class="time">Relatórios</h4>
+        </a>
+        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <h4 class="time">Configurações</h4>
+        </a>
+        <!-- Adicione mais itens conforme necessário -->
+    </ul>
+    </div>
+<script src="script.js"></script>
 
 </body>
 <footer>
