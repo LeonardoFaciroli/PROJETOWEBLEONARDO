@@ -49,7 +49,7 @@ $conexao->close();
         font-family: Ariel, Helvetica, sans-serif;
             background-color: rgb(130 167 241);
         }
-        .tela-cadastro{
+        .Login{
             background-color: rgb(138 82 255);
             position: absolute;
             top: 50%;
@@ -63,14 +63,14 @@ $conexao->close();
             text-align: center;
             
         }
-        .tela-cadastro input#formnome{
+        .Login input#formnome{
             outline: none;
             border: none;               
             font-size: 30px;
             width: 249px;              
             margin-left: 1px;       
         }
-        .tela-cadastro input#formnumero{
+        .Login input#formnumero{
             outline: none;
             border: none;   
             font-size: 30px;
@@ -78,7 +78,7 @@ $conexao->close();
             
             
         }
-        .tela-cadastro button#botao{
+        .Login button#botao{
             background-color: blue;
             border: none;
             padding: 15px;
@@ -89,12 +89,12 @@ $conexao->close();
             margin-top: 10%;          
             
         }
-        .tela-cadastro button#botao:hover{
+        .Login button#botao:hover{
             background-color: black;
             cursor: pointer;
             
         }
-        .tela-cadastro h1#titulo{
+        .Login h1#titulo{
             margin-top: -10%;
             display: inline-block;
         }
@@ -113,7 +113,7 @@ $conexao->close();
 </style>
 <body>
     <div class="tela-cadastro">
-    <a href="Pagina_inicial.php">
+    <a href="Login.php">
             <img src="img\Teams.png" alt="" width="540" height="97">
         </a>
         

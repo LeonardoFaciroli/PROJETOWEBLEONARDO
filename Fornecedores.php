@@ -14,6 +14,30 @@ if(!isset($_SESSION['user_id'])) {
     header('Location: Pagina_inicial.php'); // Redireciona para a página de login
     exit();
 }
+// --          --        --         --        --
+include_once('Config.php');
+
+if(isset($_POST['submit'])) {
+    $Email = $_POST['NomeCliente'];
+    $NomeCompleto = $_POST['CpfCliente'];
+    $NomeCompleto = $_POST['EmailCliente'];
+    $NomeCompleto = $_POST['CelularCliente'];
+    $NomeCompleto = $_POST['EventoCliente'];
+    $NomeCompleto = $_POST['OrçamentoCliente'];
+    $NomeCompleto = $_POST['LocalEventoCliente'];
+    if ($check_result->num_rows > 0) {
+        echo "O nome de usuário '$CpfCliente' já está em uso. Por favor, escolha outro.";
+    } else {
+        $sql = "INSERT INTO Clientes (NomeCliente, CpfCliente, EmailCliente, CelularCliente, EventoCliente, OrçamentoCliente, LocalEventoCliente) VALUES ('$NomeCliente', '$CpfCliente', '$EmailCliente', '$CelularCliente', '$EventoCliente', '$OrçamentoCliente', '$LocalEventoCliente')";
+
+        if ($conexao->query($sql) === TRUE) {
+            echo "Dados inseridos com sucesso!";
+        } else {
+            echo "Erro ao inserir dados: " . $conexao->error;
+        }
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +46,7 @@ if(!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
-    <title>TEAMS</title>
+    <title>Fornecedores</title>
 </head>
 
 <style>
@@ -82,27 +106,56 @@ if(!isset($_SESSION['user_id'])) {
     top: 0;
     left: 0;
 }
-
-
-
-      
+.container{   
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; 
+}
+     
 </style>
 
 <body>
-<div class="container">      
+<div class="container">  
+<form action="" method="post">
+            <div>
+                <input type="text" placeholder="Nome Completo" class="inputs" name="NomeCliente">
+            </div>
+            <br>
+            <div>
+                <input type="text" placeholder="CPF" class="inputs" name="CpfCliente">                
+            </div>
+            <br>  
+            <div>
+                <input type="text" placeholder="Email" class="inputs" name="EmailCliente">                
+            </div>                         
+            <br>
+            <input type="text" placeholder="Celular" class="inputs" name="CelularCliente">                
+            </br>
+            <br>
+            <input type="text" placeholder="Evento sugerido" class="inputs" name="EventoCliente">                
+            </br>
+            <br>
+            <input type="text" placeholder="Orçamento relacionado" class="inputs" name="OrçamentoCliente">                
+            </br>
+            <br>
+            <input type="text" placeholder="Local do evento" class="inputs" name="LocalEventoCliente">                
+            </br>                       
+            <button type="submit" id="botao" name="submit">Cadastrar</button>
+        </form>    
 </div>
 <div class="menu2">
 </div>
       <button id="toggleMenuButton">Toggle Menu</button>
 <div class="menu">   
     <ul>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <a href="Pagina_Principal.php" id="linkcriartime">
         <h4 class="time">Tela Principal</h4>
         </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <a href="--" id="linkcriartime">
         <h4 class="time">Dashboards</h4>
         </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <a href="--" id="linkcriartime">
         <h4 class="time">Agenda</h4>
         </a>
         <a href="Clientes.php" id="linkcriartime">
@@ -117,16 +170,16 @@ if(!isset($_SESSION['user_id'])) {
         <a href="Estoque_Inventario.php" id="linkcriartime">
         <h4 class="time">Estoque/Inventário</h4>
         </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <a href="--" id="linkcriartime">
         <h4 class="time">Serviços e Produtos</h4>
         </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <a href="--" id="linkcriartime">
         <h4 class="time">Eventos</h4>
         </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <a href="--" id="linkcriartime">
         <h4 class="time">Relatórios</h4>
         </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
+        <a href="--" id="linkcriartime">
         <h4 class="time">Configurações</h4>
         </a>
     </ul>
@@ -137,4 +190,3 @@ if(!isset($_SESSION['user_id'])) {
 <footer>
 
 </footer>
-   

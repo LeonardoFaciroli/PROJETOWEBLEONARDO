@@ -79,7 +79,7 @@
             <input  type="password" placeholder="Senha" name="Senha">
         <br><br>
             <input style="display: inline-block; margin-bottom: -20px; margin-top: 30px" class="inputSubmit" type="submit" id="botao" value="Entrar" name="submit">
-        <h1  style="display: inline-block; margin-bottom: -20px; margin-top: 50px">Não tem uma conta?<a href="Pagina_Cadastro.php">Cadastre-se</a></h1>
+        <h1  style="display: inline-block; margin-bottom: -20px; margin-top: 50px">Não tem uma conta?<a href="Cadastro.php">Cadastre-se</a></h1>
     </form>
 </body>
 <footer>
