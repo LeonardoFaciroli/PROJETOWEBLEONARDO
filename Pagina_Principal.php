@@ -15,25 +15,31 @@ if(!isset($_SESSION['user_id'])) {
     exit();
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
+
+
+
 <head>
+    <!DOCTYPE html>
+    <html lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <title>TEAMS</title>
-</head>
 
-<style>
+    <script src="https://kit.fontawesome.com/3cd7cbdd5d.js" crossorigin="anonymous"></script>
+
+    <style>
         body{
             font-family: Ariel, Helvetica, sans-serif;
             background-color: rgb(white);}
            
      /* styles.css */
+     
         .menu{
             width: 200px;
             height: 100vh; /* 100% da altura da viewport */
+            overflow-y: auto;
             background-color: #2698F0;
             position: fixed; /* ou absolute, dependendo do comportamento desejado */
             top: 0;
@@ -80,56 +86,54 @@ if(!isset($_SESSION['user_id'])) {
     background-color:#2698F0;
     position: fixed;
     top: 0;
-    left: 0;
-}
-
-
-
-      
+    left: 0;   
+    }  
+    nav ul a i {
+    margin: 10px 10px; /* Ajuste para espaçamento entre o ícone e o texto */
+                } 
 </style>
-
+</head>
 <body>
-<div class="container">      
-</div>
-<div class="menu2">
-</div>
+    <div class="menu2"></div>
       <button id="toggleMenuButton">Toggle Menu</button>
 <div class="menu">   
-    <ul>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
-        <h4 class="time">Tela Principal</h4>
-        </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
-        <h4 class="time">Dashboards</h4>
-        </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
-        <h4 class="time">Agenda</h4>
-        </a>
-        <a href="Clientes.php" id="linkcriartime">
-        <h4 class="time">Clientes</h4>
-        </a>
-        <a href="Fornecedores.php" id="linkcriartime">
-        <h4 class="time">Fornecedores</h4>
-        </a>
-        <a href="Equipe.php" id="linkcriartime">
-        <h4 class="time">Equipe</h4>
-        </a>
-        <a href="Estoque_Inventario.php" id="linkcriartime">
-        <h4 class="time">Estoque/Inventário</h4>
-        </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
-        <h4 class="time">Serviços e Produtos</h4>
-        </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
-        <h4 class="time">Eventos</h4>
-        </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
-        <h4 class="time">Relatórios</h4>
-        </a>
-        <a href="Pagina_CreateTeam.php" id="linkcriartime">
-        <h4 class="time">Configurações</h4>
-        </a>
-    </ul>
+    <nav>
+        <ul>
+            <a href="Pagina_CreateTeam.php">          
+                <h4><i class="fas fa-home"></i>Tela Principal</h4>        
+            </a>
+            <a href="Pagina_CreateTeam.php">
+                <h4><i class="fas fa-chart-line"></i>Dashboards</h4>
+            </a>
+            <a href="Pagina_CreateTeam.php">
+                <h4><i class="fas fa-calendar"></i>Agenda</h4>
+            </a>
+            <a href="Clientes.php">
+                <h4><i class="fas fa-user"></i>Clientes</h4>
+            </a>
+            <a href="Fornecedores.php">
+                <h4><i class="fas fa-truck"></i>Fornecedores</h4>
+            </a>
+            <a href="Equipe.php">
+                <h4><i class="fas fa-users"></i>Equipe</h4>
+            </a>
+            <a href="Estoque_Inventario.php">
+                <h4><i class="fas fa-box-open"></i>Estoque/Inventário</h4>
+            </a>
+            <a href="Pagina_CreateTeam.php">
+                <h4><i class="fas fa-wrench"></i>Serviços e Produtos</h4>
+            </a>
+            <a href="Pagina_CreateTeam.php">
+                <h4><i class="fas fa-calendar-alt"></i>Eventos</h4>
+            </a>
+            <a href="Pagina_CreateTeam.php">
+                <h4><i class="fas fa-file-alt"></i>Relatórios</h4>
+            </a>
+            <a href="Pagina_CreateTeam.php">
+                <h4><i class="fas fa-cogs"></i>Configurações</h4>
+            </a>
+        </ul>
+    </nav>
     </div>
 <script src="script.js"></script>
 
