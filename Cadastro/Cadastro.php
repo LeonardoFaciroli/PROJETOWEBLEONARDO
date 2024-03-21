@@ -1,36 +1,37 @@
 <?php
-include_once('Config.php');
+include_once('../Outros/Config.php');
+global $conexao;
 
 if(isset($_POST['submit'])) {
     $Email = $_POST['Email'];
     $NomeCompleto = $_POST['NomeCompleto'];
 
-    if(isset($_POST['Nome']) && isset($_POST['Numeros'])) {
-        $Nome = $_POST['Nome'];
-        $Numeros = $_POST['Numeros'];
-        $NomeUsuario = $Nome . '#' . $Numeros;
+    //if(isset($_POST['Nome']) && isset($_POST['Numeros'])) {
+       // $Nome = $_POST['Nome'];
+       // $Numeros = $_POST['Numeros'];
+       // $NomeUsuario = $Nome . '#' . $Numeros;
 
-        if (preg_match('/^[a-zA-Z]+#[0-9]+$/', $NomeUsuario)) {
-            $check_query = "SELECT * FROM Usuarios WHERE NomeUsuario = '$NomeUsuario'";
-            $check_result = $conexao->query($check_query);
+        //if (preg_match('/^[a-zA-Z]+#[0-9]+$/', $NomeUsuario)) {
+            //$check_query = "SELECT * FROM Usuarios WHERE NomeUsuario = '$NomeUsuario'";
+            //$check_result = $conexao->query($check_query);
 
-            if ($check_result->num_rows > 0) {
-                echo "O nome de usuário '$NomeUsuario' já está em uso. Por favor, escolha outro.";
-            } else {
+           // if ($check_result->num_rows > 0) {
+           //     echo "O nome de usuário '$NomeUsuario' já está em uso. Por favor, escolha outro.";
+           // } else {
+                
                 $Senha = $_POST['Senha'];
-                $sql = "INSERT INTO Usuarios (Email, NomeCompleto, NomeUsuario, Senha) VALUES ('$Email', '$NomeCompleto', '$NomeUsuario', '$Senha')";
+                $sql = "INSERT INTO Usuarios (Email, NomeCompleto, Senha) VALUES ('$Email', '$NomeCompleto', '$Senha')";
 
                 if ($conexao->query($sql) === TRUE) {
                     echo "Dados inseridos com sucesso!";
                 } else {
                     echo "Erro ao inserir dados: " . $conexao->error;
                 }
-            }
-        } else {
-            echo "O nome de usuário não segue o padrão desejado (Nome#123).";
-        }
-    }
-}
+            
+        } //else {
+          //  echo "O nome de usuário não segue o padrão desejado (Nome#123).";
+        //}
+    
 
 $conexao->close();
 ?>
@@ -128,11 +129,11 @@ $conexao->close();
                 <input type="text" placeholder="Nome completo" class="inputs" name="NomeCompleto">                
             </div>
             <br>
-            <div>           
+            <!--<div>           
                 <input id="formnome" type="text" placeholder="Usuário + tag" class="inputs" name="Nome">
                 <span style="display: inline-block; width: 23px; text-align: center; font-size: 31px;">#</span>
                 <input id="formnumero"type="text" placeholder="000" class="inputs" name="Numeros">          
-            </div>
+            </div>-->
             <br>
             <div>
                 <input type="password" placeholder="Senha" class="inputs" name="Senha">            

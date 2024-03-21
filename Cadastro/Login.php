@@ -72,14 +72,14 @@
     <!--Preciso fazer o tratamento para que o login seja feito com o nome de usuario mais a tag NOME#000-->
     <form action="LogTest.php" method="post" class="tela-login">
         <h1 id="login">Login</h1>
-            <input style="display: inline-block; margin-bottom: -20px; margin-top: 30px" id="formnome" type="text" placeholder="Usuário + tag" class="inputs" name="Nome">
-            <span style="display: inline-block; width: 23px; text-align: center; font-size: 31px;">#</span>
-            <input id="formnumero"type="text" placeholder="000" class="inputs" name="Numeros"> 
+            <input style="display: inline-block; margin-bottom: -20px; margin-top: 30px" id="formnome" type="text" placeholder="Email" class="inputs" name="Email">
+            <!--<span style="display: inline-block; width: 23px; text-align: center; font-size: 31px;">#</span>
+            <input id="formnumero"type="text" placeholder="000" class="inputs" name="Numeros"> -->
         <br><br>
             <input  type="password" placeholder="Senha" name="Senha">
         <br><br>
             <input style="display: inline-block; margin-bottom: -20px; margin-top: 30px" class="inputSubmit" type="submit" id="botao" value="Entrar" name="submit">
-        <h1  style="display: inline-block; margin-bottom: -20px; margin-top: 50px">Não tem uma conta?<a href="Cadastro.php">Cadastre-se</a></h1>
+        <h1  style="display: inline-block; margin-bottom: -20px; margin-top: 50px">Não tem uma conta?<a href="../Cadastro/Cadastro.php">Cadastre-se</a></h1>
     </form>
 </body>
 <footer>

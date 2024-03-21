@@ -2,9 +2,11 @@
 $dbHost = 'localhost';
 $dbUsername = 'root';
 $dbPassword = '';
-$dbName = 'DbTeams';
+$dbName = 'BdGerenciador';
 
 $conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+global $conexao;
+echo "Conexão bem-sucedida!";
 //BANCO DE DADOS CONEXAO!!
 //if($conexao->connect_errno) {
  //   echo "Erro na conexão!";
