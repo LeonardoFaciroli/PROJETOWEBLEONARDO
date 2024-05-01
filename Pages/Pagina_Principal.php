@@ -135,18 +135,18 @@ if ($getTimeNameResult->num_rows > 0) {
 </style>
 </head>
 <body>
-    <div class="menu2"> 
-        <div class="user-circle">
-            <!-- Aqui você pode obter o nome do usuário da sessão -->
-            <span class="user-name"><?php echo $_SESSION['NomeCompleto']; ?></span>  
-        </div>     
+<div class="menu2"> 
+    <div class="user-circle">
+         <!-- Aqui você pode obter o nome do usuário da sessão -->
+         <span class="user-name"><?php echo $_SESSION['NomeCompleto']; ?></span>  
+    </div>     
         <button id="toggleMenuButton"> <i class="fas fa-bars"></i></button>
         <button id="toggleMenuButton1">Sair</button>
         <!--botao para finalizar sessão-->
-        <form action="" method="post" >
-            <input type="submit" value="Sair" name="logout"style="background-color:red; margin-left:2100%";>
-        </form>
-    </div>
+    <form action="" method="post" >
+        <input type="submit" value="Sair" name="logout"style="background-color:red; margin-left:2100%";>
+    </form>
+</div>
       
 <div class="menu">     
     <nav>
@@ -181,7 +181,7 @@ if ($getTimeNameResult->num_rows > 0) {
             <a href="Relatorios.php">
                 <h4><i class="fas fa-file-alt"></i>Relatórios</h4>
             </a>
-            <a href="Configuracoes.php">
+            <a href="Configuracoes.php "id="link-configuracoes">
                 <h4><i class="fas fa-cogs"></i>Configurações</h4>
             </a>
         </ul>

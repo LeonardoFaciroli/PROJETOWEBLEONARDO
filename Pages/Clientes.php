@@ -32,6 +32,42 @@ if ($getTimeNameResult->num_rows > 0) {
     echo "Erro: Não foi possível encontrar o nome do usuário.";
 }
 
+if(isset($_POST['submit'])) {
+    echo "Formulário enviado!";
+    if(isset($_POST['NomeCliente'],$_POST['CPF'],$_POST['EmailCliente'],$_POST['CelularCliente'],$_POST['EndereçoCliente'],$_POST['EventoRelacionadoCliente'],$_POST['OrçamentoRelacionadoCliente'],$_POST ['LocalEventoCliente'])){
+    $NomeCliente = $_POST['NomeCliente'];
+    $CPF = $_POST['CPF'];           
+    $EmailCliente = $_POST['EmailCliente'];
+    $CelularCliente = $_POST['CelularCliente'];
+    $EndereçoCliente = $_POST['EndereçoCliente'];
+    $EventoRelacionadoCliente = $_POST['EventoRelacionadoCliente'];
+    $OrçamentoRelacionadoCliente = $_POST['OrçamentoRelacionadoCliente'];
+    $LocalEventoCliente = $_POST ['LocalEventoCliente'];
+
+    $sql_check = "SELECT CPF FROM Clientes WHERE CPF = '$CPF'";
+        $result_check = $conexao->query($sql_check);
+        if ($result_check->num_rows > 0) {
+            echo "Erro: CPF já está em uso.";
+        } else {
+
+                $sql = "INSERT INTO Clientes (NomeCliente, CPF, EmailCliente, CelularCliente, EndereçoCliente, EventoRelacionadoCliente, OrçamentoRelacionadoCliente, LocalEventoCliente) VALUES ('$NomeCliente', '$CPF', '$EmailCliente', '$CelularCliente', '$EndereçoCliente', '$EventoRelacionadoCliente', '$OrçamentoRelacionadoCliente', '$LocalEventoCliente')";
+                if ($conexao->query($sql) === TRUE) {
+                    echo "Dados inseridos com sucesso!";
+                } else {
+                    echo "Erro ao inserir dados: " . $conexao->error;
+                }
+            
+        }
+        if(is_numeric($CPF) && is_numeric($CelularCliente)) {
+            // Restante do seu código de inserção no banco de dados...
+        } else {
+            echo "CPF e Celular devem conter apenas números.";
+        }
+    }else {
+        // Se algum campo obrigatório estiver em falta, exiba uma mensagem de erro
+        echo "Todos os campos obrigatórios devem ser preenchidos!";
+    }
+}
 ?>
 
 <head>
@@ -131,12 +167,23 @@ if ($getTimeNameResult->num_rows > 0) {
     margin: 10px 10px; /* Ajuste para espaçamento entre o ícone e o texto */
     } 
  /* Estilos para o modal */
- .container{   
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; 
-}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+   .display-direito {
+    flex: 1;
+    padding: 20px;
+  }
+  .form-esquerdo {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+    margin-left:200px;
+    height: calc(100vh - 80px);
+  }
 </style>
 </head>
 <body>
@@ -193,32 +240,46 @@ if ($getTimeNameResult->num_rows > 0) {
     </nav>
 </div>
 <div class="container">  
-<form action="" method="post">
-            <div>
-                <input type="text" placeholder="Nome Completo" class="inputs" name="NomeCliente">
-            </div>
-            <br>
-            <div>
-                <input type="text" placeholder="CPF" class="inputs" name="CpfCliente">                
-            </div>
-            <br>  
-            <div>
-                <input type="text" placeholder="Email" class="inputs" name="EmailCliente">                
-            </div>                         
-            <br>
-            <input type="text" placeholder="Celular" class="inputs" name="CelularCliente">                
-            </br>
-            <br>
-            <input type="text" placeholder="Evento sugerido" class="inputs" name="EventoCliente">                
-            </br>
-            <br>
-            <input type="text" placeholder="Orçamento relacionado" class="inputs" name="OrçamentoCliente">                
-            </br>
-            <br>
-            <input type="text" placeholder="Local do evento" class="inputs" name="LocalEventoCliente">                
-            </br>                       
-            <button type="submit" id="botao" name="submit">Cadastrar</button>
-        </form>    
+    <div class="form-esquerdo">
+        <form action="" method="post">
+                <div>
+                    <input type="text" placeholder="Nome Completo" class="inputs" name="NomeCliente">
+                </div>
+                <br>
+                <div>
+                    <input type="number" placeholder="CPF" class="inputs" name="CPF">                
+                </div>
+                <br>  
+                <div>
+                    <input type="text" placeholder="Email" class="inputs" name="EmailCliente">                
+                </div>                         
+                <br>
+                <input type="number" placeholder="Celular" class="inputs" name="CelularCliente">                
+                </br>
+                <br>
+                <input type="text" placeholder="Endereço" class="inputs" name="EndereçoCliente">                
+                </br>
+                <br>
+                <input type="text" placeholder="Evento relacionado ao Cliente" class="inputs" name="EventoRelacionadoCliente">                
+                </br>
+                <br>
+                <input type="number" placeholder="Orçamento Proposto ao Cliente" class="inputs" name="OrçamentoRelacionadoCliente">                
+                </br> 
+                <br>
+                <input type="text" placeholder="Local do Evento" class="inputs" name="LocalEventoCliente">                
+                </br>                      
+                <button type="submit" id="botao" name="submit">Cadastrar</button>
+        </form>
+    </div> 
+    <div class="display-direito">
+
+    <h2>Clientes Cadastrados</h2>
+    <ul>  
+    <li>Cliente 1</li>
+    <li>Cliente 2</li>
+    <li>Cliente 3</li>
+</ul>
+</div>   
 </div>
 <script src="../script.js"></script>
 </body>

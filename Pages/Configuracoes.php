@@ -1,25 +1,5 @@
 <?php
 session_start();
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TEAMS</title>
-</head>
-
-<style>
-        body{
-            font-family: Ariel, Helvetica, sans-serif;
-            background-color: rgb(138 82 255);
-        }
-</style>
-
-<body>
-<?php
-session_start();
 include_once('../Outros/Config.php');;
 
 if (isset($_POST['logout'])) 
@@ -35,7 +15,6 @@ if(!isset($_SESSION['user_id'])) {
     exit();
 }
 $userId = $_SESSION['user_id'];
-// Consulta para obter o nome do time pelo IdCriador
 $getTimeNameQuery = $conexao->prepare("SELECT NomeCompleto FROM Usuarios WHERE id = ?");
 $getTimeNameQuery->bind_param("i", $userId);
 $getTimeNameQuery->execute();
@@ -49,6 +28,28 @@ if ($getTimeNameResult->num_rows > 0) {
 } else {
     // Se não houver resultados, define um valor padrão para o nome completo do usuário
     echo "Erro: Não foi possível encontrar o nome do usuário.";
+}
+
+// Verifica o nível de acesso do usuário
+$query = "SELECT nivel_acesso_id FROM Usuarios WHERE id = ?";
+$stmt = $conexao->prepare($query);
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$resultado = $stmt->get_result();
+
+if ($resultado->num_rows > 0) {
+    $linha = $resultado->fetch_assoc();
+    $nivel_acesso_id = $linha['nivel_acesso_id'];
+
+    if ($nivel_acesso_id != 1) { // Verifica se o usuário não é o superADM (nível de acesso 1)
+        // Se não for o superADM, redireciona para outra página
+        header("Location: Pagina_Principal.php");
+        exit();
+    }
+} else {
+    // Se não encontrou o usuário, redireciona para a página de login
+    header("Location: ..Cadastro/Login.php");
+    exit();
 }
 
 ?>
@@ -166,7 +167,7 @@ if ($getTimeNameResult->num_rows > 0) {
             <input type="submit" value="Sair" name="logout"style="background-color:red; margin-left:2100%";>
         </form>
     </div>
-      
+>
 <div class="menu">     
     <nav>
     <ul>

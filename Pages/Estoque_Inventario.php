@@ -32,6 +32,43 @@ if ($getTimeNameResult->num_rows > 0) {
     echo "Erro: Não foi possível encontrar o nome do usuário.";
 }
 
+if(isset($_POST['submit'])) {
+    echo "Formulário enviado!";
+    if(isset($_POST['NomeProduto'],$_POST['DataCompraProduto'],$_POST['Quantidade'],$_POST['Categoria'],$_POST['SubCategoria'],$_POST['PrecoCompra'],$_POST['PrecoVenda'],$_POST ['Validade'], $_POST['LocalizacaoEstoque'])){
+    $NomeProduto = $_POST['NomeProduto'];
+    $DataCompraProduto = $_POST['DataCompraProduto'];           
+    $Quantidade = $_POST['Quantidade'];
+    $Categoria = $_POST['Categoria'];
+    $SubCategoria = $_POST['SubCategoria'];
+    $PrecoCompra = $_POST['PrecoCompra'];
+    $PrecoVenda = $_POST['PrecoVenda'];
+    $Validade = $_POST ['Validade'];
+    $LocalizacaoEstoque = $_POST ['LocalizacaoEstoque'];
+
+    $sql_check = "SELECT NomeProduto FROM Estoque WHERE NomeProduto = '$NomeProduto'";
+        $result_check = $conexao->query($sql_check);
+        if ($result_check->num_rows > 0) {
+            echo "Erro:  Este produto" . $NomeProduto . "já está cadastrado no sistema !";
+        } else {
+
+                $sql = "INSERT INTO Estoque (NomeProduto, DataCompraProduto, Quantidade, Categoria, SubCategoria, PrecoCompra, PrecoVenda, Validade, LocalizacaoEstoque) VALUES ('$NomeProduto', '$DataCompraProduto', '$Quantidade', '$Categoria', '$SubCategoria', '$PrecoCompra', '$PrecoVenda', '$Validade', '$LocalizacaoEstoque')";
+                if ($conexao->query($sql) === TRUE) {
+                    echo "Dados inseridos com sucesso!";
+                } else {
+                    echo "Erro ao inserir dados: " . $conexao->error;
+                }
+            
+        }
+        if(is_numeric($Quantidade) && is_numeric($PrecoCompra) && is_numeric($PrecoVenda)) {
+            // Restante do seu código de inserção no banco de dados...
+        } else {
+            echo "Os campos Quantidade, Preço de Compra e Preço de Venda devem conter apenas números.";
+        }
+    }else {
+        // Se algum campo obrigatório estiver em falta, exiba uma mensagem de erro
+        echo "Todos os campos obrigatórios devem ser preenchidos!";
+    }
+}
 ?>
 
 <head>
@@ -131,12 +168,22 @@ if ($getTimeNameResult->num_rows > 0) {
     margin: 10px 10px; /* Ajuste para espaçamento entre o ícone e o texto */
     } 
  /* Estilos para o modal */
- .container{   
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; 
-}
+ .container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+   .display-direito {
+    flex: 1;
+    padding: 20px;
+  }
+  .form-esquerdo {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+    margin-left:200px;
+    height: calc(100vh - 80px);
+  }
 
 </style>
 </head>
@@ -194,60 +241,61 @@ if ($getTimeNameResult->num_rows > 0) {
     </nav>
 </div>
 <div class="container">  
-    <form action="" method="post">
+    <div class="form-esquerdo">
+        <form action="" method="post">
             <br>
                 <div>
                     <input type="text" placeholder="Nome do Produto" class="inputs" name="NomeProduto">
-                </div>
-            </br>
-            <br>
+                </div>                
                 <div>
-                    <input type="text" placeholder="SKU" class="inputs" name="SKU">                
-                </div>
-            </br>
-            <br>
-                    <input type="text" placeholder="Data de compra" class="inputs" name="DataCompraProduto">                
-            </br> 
+                    <h5>Data da Compra</h5>
+                    <input type="date" placeholder="Data de compra" class="inputs" name="DataCompraProduto">
+                </div>                                     
             <br>  
                 <div>
-                    <input type="text" placeholder="Quantidade a ser adicionada" class="inputs" name="QuantidadeProduto">                
+                    <input type="text" placeholder="Quantidade a ser adicionada" class="inputs" name="Quantidade">                
                 </div> 
             </br>                        
-            <br>
+            
                 <div>
-                    <input type="text" placeholder="Categoria" class="inputs" name="CategoriaProduto">  
+                    <input type="text" placeholder="Categoria" class="inputs" name="Categoria">  
                 </div>              
-            </br>
+            <br>
+            
+                <div>
+                    <input type="text" placeholder="SubCategoria" class="inputs" name="SubCategoria">
+                </div>                
+            
             <br>
                 <div>
-                    <input type="text" placeholder="Preço de compra" class="inputs" name="PreçoCompraProduto">
+                    <input type="text" placeholder="Preço de Compra" class="inputs" name="PrecoCompra">
                 </div>                
             </br>
+                    <input type="text" placeholder="Preço de venda" class="inputs" name="PrecoVenda"> 
+              
+                <div>
+                    <h5>Validade</h5>
+                    <input  type="date" placeholder="Data de validade" class="inputs" name="Validade"> 
+                </div>                    
             <br>
                 <div>
-                    <input type="text" placeholder="Preço de venda" class="inputs" name="PreçoVendaProduto">
-                </div>                
-            </br>
-            <br>
-                <div>
-                    <input type="text" placeholder="Data de compra" class="inputs" name="DataCompraProduto"> 
-                </div>               
-            </br> 
-            <br>
-                <div>
-                    <input type="text" placeholder="Data de validade" class="inputs" name="DataValidadeProduto"> 
-                </div>               
-            </br>     
-            <br>
-                <div>
-                    <input type="text" placeholder="Localização no estoque" class="inputs" name="LocalizaçãoEstoque">  
+                    <input type="text" placeholder="Localização no estoque" class="inputs" name="LocalizacaoEstoque">  
                 </div>              
             </br>                   
                 <button type="submit" id="botao" name="submit">Cadastrar</button>
-            </form>    
-            </div>
+        </form>  
+    </div> 
+    <div class="display-direito">
 
-
+        
+        <h2>Produtos Cadastrados</h2>
+        <ul>
+            
+            <li>Produto 1</li>
+            <li>Produto 2</li>
+            <li>Produto 3</li>
+        </ul>
+    </div>
 </div>
     <script src="../script.js"></script>
 
