@@ -47,11 +47,49 @@ if ($resultado->num_rows > 0) {
         exit();
     }
 } else {
-    // Se não encontrou o usuário, redireciona para a página de login
+    //redireciona para a página de login
     header("Location: ..Cadastro/Login.php");
     exit();
 }
 
+if (isset($_POST['delete_user_id'])) {
+    $userIdToDelete = $_POST['delete_user_id'];
+
+    // Preparar e executar a instrução SQL para excluir o usuário
+    $deleteQuery = $conexao->prepare("DELETE FROM Usuarios WHERE Id = ?");
+    $deleteQuery->bind_param("i", $userIdToDelete);
+    $deleteQuery->execute();
+    
+    // Verificar se a exclusão foi bem-sucedida
+    if ($deleteQuery->affected_rows > 0) {
+        echo "Usuário excluído com sucesso.";
+        // Você pode redirecionar o usuário para uma página de confirmação ou atualizar a página atual
+        // header("Location: sua_pagina.php");
+        // exit();
+    } else {
+        echo "Erro ao excluir o usuário.";
+    }
+}
+
+if (isset($_POST['edit_user_id']) && isset($_POST['new_user_level'])) {
+    $userIdToEdit = $_POST['edit_user_id'];
+    $newUserLevel = $_POST['new_user_level'];
+
+     // Atualizar o nível de acesso do usuário no banco
+     $updateQuery = $conexao->prepare("UPDATE Usuarios SET nivel_acesso_id = ? WHERE Id = ?");
+     $updateQuery->bind_param("ii", $newUserLevel, $userIdToEdit);
+ 
+     if ($updateQuery->execute()) {
+         // Atualização bem-sucedida
+         echo "Nível de acesso atualizado com sucesso!";
+     } else {
+         // Erro na atualização
+         echo "Erro ao atualizar o nível de acesso.";
+     }
+}
+
+$sql = "SELECT * FROM Usuarios";
+$result = $conexao->query($sql);
 ?>
 
 <head>
@@ -140,34 +178,40 @@ if ($resultado->num_rows > 0) {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            cursor: pointer; /* Transformar o cursor em uma mão quando passar por cima */
+            cursor: pointer; /* Transforma o cursor em uma mão quando passar por cima */
         }
         .user-name {
     text-align: center; /* Centraliza o texto */
-    margin-top: 120px; /* Adiciona uma margem superior para separar o nome do círculo */
-    color: #FFFFFF; /* Cor do texto (opcional) */        
+    margin-top: 120px; /* margem superior para separar o nome do círculo */
+    color: #FFFFFF; /* Cor do texto */        
     }
     nav ul a i {
     margin: 10px 10px; /* Ajuste para espaçamento entre o ícone e o texto */
     } 
- /* Estilos para o modal */
 
+    .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+    }
 </style>
 </head>
 <body>
-    <div class="menu2"> 
-        <div class="user-circle">
-            <!-- Aqui você pode obter o nome do usuário da sessão -->
+
+
+<div class="menu2"> 
+    <div class="user-circle">
+        <!-- nome do usuário da sessão -->
             <span class="user-name"><?php echo $_SESSION['NomeCompleto']; ?></span>  
-        </div>     
-        <button id="toggleMenuButton"> <i class="fas fa-bars"></i></button>
-        <button id="toggleMenuButton1">Sair</button>
-        <!--botao para finalizar sessão-->
-        <form action="" method="post" >
-            <input type="submit" value="Sair" name="logout"style="background-color:red; margin-left:2100%";>
-        </form>
-    </div>
->
+    </div>     
+    <button id="toggleMenuButton"> <i class="fas fa-bars"></i></button>
+    <button id="toggleMenuButton1">Sair</button>
+    <!--botao para finalizar sessão-->
+    <form action="" method="post" >
+        <input type="submit" value="Sair" name="logout"style="background-color:red; margin-left:2100%";>
+    </form>
+</div>
+  
 <div class="menu">     
     <nav>
     <ul>
@@ -207,7 +251,60 @@ if ($resultado->num_rows > 0) {
         </ul>
     </nav>
 </div>
-<script src="../script.js"></script>
+<body>
+    <div class="container">
+<h1>Configurações</h1>
+    <h2>Gerenciar Usuários</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Nível de Acesso</th>
+            <th>Ações</th>
+        </tr>
+        <?php while ($row = $result->fetch_assoc()) { ?>
+            <tr>
+                <td><?php echo $row['Id']; ?></td>
+                <td><?php echo $row['NomeCompleto']; ?></td>
+                <td><?php echo $row['Email']; ?></td>
+                <td>
+                    <?php 
+                        // Converte o valor do nível de acesso em seu nome correspondente
+                        $nivel_nome = '';
+                        if ($row['nivel_acesso_id'] == 1) {
+                            $nivel_nome = 'SuperADM';
+                        } elseif ($row['nivel_acesso_id'] == 2) {
+                            $nivel_nome = 'Gerente';
+                        } elseif ($row['nivel_acesso_id'] == 3) {
+                            $nivel_nome = 'Colaborador';
+                        } else {
+                            $nivel_nome = 'Nível Desconhecido'; // Caso o nível seja diferente de 1, 2 ou 3
+                        }
+                        echo $nivel_nome;
+                    ?>
+                </td>
+                <td>
+                    <!-- Botões de Excluir e Editar -->
+                    <form method="post">
+                        <input type="hidden" name="delete_user_id" value="<?php echo $row['Id']; ?>">
+                        <button type="submit">Excluir</button>
+                    </form>
+                    <form method="post">
+                        <input type="hidden" name="edit_user_id" value="<?php echo $row['Id']; ?>">
+                        <select name="new_user_level">
+                            <option value="1">SuperADM</option>
+                            <option value="2">Gerente</option>
+                            <option value="3">Colaborador</option>
+                        </select>
+                        <button type="submit">Editar</button>
+                    </form>
+                </td>
+            </tr>
+        <?php } ?>
+    </table>
+    </div>
+<script src="../script.js"></script> 
 </body>
 <footer>
 
