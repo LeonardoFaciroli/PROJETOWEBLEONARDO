@@ -1,10 +1,10 @@
 <?php
 $dbHost = 'localhost';
 $dbUsername = 'root';
-$dbPassword = 'leonardo123';
+$dbPassword = '123';
 $dbName = 'BdGerenciador';
-
-$conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+$port = 3309;
+$conexao = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName, $port);
 global $conexao;
 //echo "Conexão bem-sucedida!";
 //BANCO DE DADOS CONEXAO!!
@@ -13,6 +13,4 @@ global $conexao;
 //} else {
 //    echo "Conexão efetuada com sucesso!";
 //}
-
 ?>
-

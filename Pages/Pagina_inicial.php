@@ -21,7 +21,7 @@ body{
 
 
 .barra-superior {
-    background-color:#C85C5C;
+    background-color:#E1A07C;
     position: fixed;
     top: 0;
     left: 0;
@@ -48,7 +48,14 @@ body{
 }
 
 </style>
-<Body ><img src="../img/FacaseuseventosganharemvidaV2.png" alt="" class="img">
+<Body >
+    <div>
+    <img src="../img/insiraeventos.png" alt="" class="img">
+    </div>
+<div>
+<img src="../img/FacaseuseventosganharemvidaV2.png" alt="" class="img">
+</div>    
+
     <div class="barra-superior">
         <a href="../Cadastro/Login.php"class="botao">Login</a>
         <a href="../Cadastro/Cadastro.php" class="botao">Cadastre-se</a>

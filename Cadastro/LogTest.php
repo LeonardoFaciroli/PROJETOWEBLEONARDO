@@ -26,8 +26,10 @@ if(isset($_POST['submit']) && !empty($_POST['Email']) && !empty($_POST['Senha'])
         // Usuário válido, proceda com o login
         // Obtenha o ID do usuário
         $row = $result->fetch_assoc();//session
-        $id_do_usuario = $row['Id']; // Altere 'id' para o nome da coluna que armazena o ID do usuário
+        $id_do_usuario = $row['Id']; 
+        $nivel_acesso_id = $row['nivel_acesso_id']; 
         $_SESSION['user_id'] = $id_do_usuario;
+        $_SESSION['nivel_acesso_id'] = $nivel_acesso_id;
 
         //echo "ID do usuário: " . $id_do_usuario;
         //exit();
